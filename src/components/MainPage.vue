@@ -9,14 +9,22 @@
     export default{
         data(){
             return{
-                msg:'hello vue'
+                msg:'hello vue',
+                postData: {
+                    grant_type: 'password',
+                    client_id: 2,
+                    client_secret: 'PWP90Q5LH7Igjqbnqtd668XmeEq1ID3fxTE37yF3',
+                    username: 'dima.krol@mail.ru',
+                    password: '123123',
+                    scope: ''
+                }
             }
         },
         methods: {
             callLara() {
-                this.$http.get('http://localhost:8000/people')
+                this.$http.post('http://localhost:8000/oauth/token', this.postData)
                     .then(response => {
-                        console.log(response.body)
+                        console.log(response)
                     })
             }
         }

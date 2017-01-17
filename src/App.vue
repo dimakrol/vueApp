@@ -1,16 +1,20 @@
+<script>
+    import TopMenu from './components/TopMenu'
+    export default {
+        components: {
+            TopMenu
+        },
+
+    }
+</script>
+
 <template>
-  <div id="app">
-    <main-page></main-page>
+  <div>
+    <top-menu></top-menu>
+    <router-view></router-view>
   </div>
 </template>
 
-<script>
-import MainPage from './components/MainPage'
-
-export default {
-  name: 'app',
-  components: {
-    MainPage
-  }
-}
-</script>
+<style lang="sass">
+  @import './assets/css/bootstrap.css';
+</style>

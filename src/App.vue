@@ -20,7 +20,6 @@ export default {
 
 <template>
   <div>
-    <pre>{{ userStore }}</pre>
     <top-menu></top-menu>
     <router-view></router-view>
   </div>

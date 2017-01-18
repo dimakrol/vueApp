@@ -2,10 +2,18 @@
 import {mapState} from 'vuex'
 
 export default {
+
     computed: {
       ...mapState({
         userStore: state => state.userStore
       })
+    },
+    methods: {
+        handleLogout: function() {
+            this.$store.dispatch('clearUserObject')
+            window.localStorage.removeItem('authUser')
+            this.$router.push({name: 'home'})
+        }
     }
 }
 </script>
@@ -57,7 +65,7 @@ export default {
                         <li><a href="#">Another action</a></li>
                         <li><a href="#">Something else here</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
+                        <li><a @click.prevent='handleLogout()'>Logout</a></li>
                     </ul>
                 </li>
             </ul>

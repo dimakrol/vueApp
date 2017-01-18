@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+import store from './store'
+
 import App from './App'
 
 import LoginPage from './pages/LoginPage'
@@ -35,5 +37,5 @@ router.beforeEach((to, from, next) => {
 });
 
 new Vue({
-  router
+  router, store
 }).$mount('#app');

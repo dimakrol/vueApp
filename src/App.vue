@@ -1,15 +1,26 @@
 <script>
-    import TopMenu from './components/TopMenu'
-    export default {
-        components: {
-            TopMenu
-        },
+import {mapState} from 'vuex'
+import TopMenu from './components/TopMenu'
 
+export default {
+    components: {
+        TopMenu
+    },
+    computed: {
+      ...mapState({
+        userStore: state => state.userStore
+      })
+    },
+    created () {
+      const userObj = JSON.parse(window.localStorage.getItem('authUser'))
+      this.$store.dispatch('setUserObject', userObj )
     }
+}
 </script>
 
 <template>
   <div>
+    <pre>{{ userStore }}</pre>
     <top-menu></top-menu>
     <router-view></router-view>
   </div>

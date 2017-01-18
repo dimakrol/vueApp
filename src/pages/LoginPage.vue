@@ -1,52 +1,60 @@
 <script>
+import {mapState} from 'vuex'
+import {loginUrl, userUrl, getheader} from './../config';
+import {clientId, clientSecret} from './../env';
 
-    import {loginUrl, userUrl, getheader} from './../config';
-    import {clientId, clientSecret} from './../env';
 
-
-    export default {
-        data() {
-            return {
-                login: {
-                    email: 'dima.krol@mail.ru',
-                    password: '123123'
-                }
-            }
-        },
-        methods: {
-            handleLoginFormSubmit() {
-                const postData = {
-                    grant_type: 'password',
-                    client_id: clientId,
-                    client_secret: clientSecret,
-                    username: this.login.email,
-                    password: this.login.password,
-                    scope: ''
-                };
-                const authUser = {};
-                this.$http.post(loginUrl,postData)
-                        .then(response => {
-                            if (response.status == 200) {
-                                console.log('Oauth token', response);
-
-                                authUser.access_token = response.data.access_token;
-                                authUser.refresh_token = response.data.refresh_token;
-                                window.localStorage.setItem('authUser', JSON.stringify(authUser));
-
-                                this.$http.get(userUrl, {headers: getheader()})
-                                        .then(response => {
-                                            console.log('User Object', response);
-
-                                            authUser.email = response.body.email;
-                                            authUser.name  = response.body.name;
-                                            window.localStorage.setItem('authUser', JSON.stringify(authUser));
-                                            this.$router.push({name: 'dashboard'})
-                                        })
-                            }
-                        })
+export default {
+    data() {
+        return {
+            login: {
+                email: 'dima.krol@mail.ru',
+                password: '123123'
             }
         }
+    },
+    methods: {
+        handleLoginFormSubmit() {
+            const postData = {
+                grant_type: 'password',
+                client_id: clientId,
+                client_secret: clientSecret,
+                username: this.login.email,
+                password: this.login.password,
+                scope: ''
+            };
+
+            const authUser = {};
+
+            this.$http.post(loginUrl,postData)
+                    .then(response => {
+                        if (response.status == 200) {
+                            console.log('Oauth token', response);
+
+                            authUser.access_token = response.data.access_token;
+                            authUser.refresh_token = response.data.refresh_token;
+                            window.localStorage.setItem('authUser', JSON.stringify(authUser));
+
+                            this.$http.get(userUrl, {headers: getheader()})
+                                    .then(response => {
+                                        console.log('User Object', response);
+
+                                        authUser.email = response.body.email;
+                                        authUser.name  = response.body.name;
+                                        window.localStorage.setItem('authUser', JSON.stringify(authUser));
+                                        this.$store.dispatch('setUserObject', authUser)
+                                        this.$router.push({name: 'dashboard'})
+                                    })
+                        }
+                    })
+        }
+    },
+    computed: {
+      ...mapState({
+        userStore: state => state.userStore
+      })
     }
+}
 </script>
 
 <template>

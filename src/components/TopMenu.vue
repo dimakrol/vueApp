@@ -1,11 +1,17 @@
 <script>
-    export default {
+import {mapState} from 'vuex'
 
+export default {
+    computed: {
+      ...mapState({
+        userStore: state => state.userStore
+      })
     }
+}
 </script>
 <template>
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" v-if="userStore.authUser !== null && userStore.authUser.access_token">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
